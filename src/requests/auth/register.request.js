@@ -1,12 +1,5 @@
 const { body } = require('express-validator');
-
-const confirmed =
-  (target) =>
-  (val, { req }) => {
-    if (val !== req.body[target]) throw new Error();
-
-    return true;
-  };
+const { confirmed } = require('../../utils/validators');
 
 function createAuthRegisterRequest() {
   const rules = [
