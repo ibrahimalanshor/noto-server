@@ -4,9 +4,45 @@ const {
   createAuthRegisterRequest,
 } = require('../requests/auth');
 const { createRequestValidator } = require('../helpers');
+const {
+  createUserRepository,
+  createRefreshTokenRepository,
+} = require('../repositories/');
+const {
+  createAuthService,
+  createUserService,
+  createRefreshTokenService,
+} = require('../services');
+const {
+  createPasswordService,
+  createTokenService,
+} = require('../services/common');
+const { UserModel } = require('../models/user');
+
+const model = {
+  create: (body) => body,
+};
 
 function createAuthRoute(router) {
-  const authController = createAuthController();
+  const userRepository = createUserRepository({ userModel: UserModel });
+  const refreshTokenRepository = createRefreshTokenRepository({
+    refreshTokenModel: model,
+  });
+
+  const passwordService = createPasswordService();
+  const userService = createUserService({ userRepository, passwordService });
+  const refreshTokenService = createRefreshTokenService({
+    refreshTokenRepository,
+  });
+  const tokenService = createTokenService({ refreshTokenService });
+  const authService = createAuthService({
+    userService,
+    passwordService,
+    tokenService,
+  });
+
+  const authController = createAuthController({ authService });
+
   const authLoginRequest = createAuthLoginRequest();
   const authRegisterRequest = createAuthRegisterRequest();
 
