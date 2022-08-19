@@ -1,6 +1,7 @@
 const createApp = require('./src/app.js');
 const config = require('./config');
 const routes = require('./src/routes');
+const { connect } = require('./src/database');
 
 const app = createApp({
   env: config.env,
@@ -8,4 +9,6 @@ const app = createApp({
   routes,
 });
 
-app.run();
+connect().then(() => {
+  app.run();
+});
