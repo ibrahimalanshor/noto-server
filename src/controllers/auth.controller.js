@@ -1,13 +1,17 @@
-function createAuthController() {
-  async function login(req, res, next) {
+const { SuccessResponse } = require('../responses');
+
+function createAuthController({ authService }) {
+  async function register(req, res, next) {
     try {
-      return res.json(req.body);
+      const token = await authService.register(req.body);
+
+      return new SuccessResponse('', { token }).send(res);
     } catch (err) {
       next(err);
     }
   }
 
-  async function register(req, res, next) {
+  async function login(req, res, next) {
     try {
       return res.json(req.body);
     } catch (err) {
