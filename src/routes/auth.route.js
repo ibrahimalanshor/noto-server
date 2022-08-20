@@ -3,6 +3,7 @@ const {
   createAuthLoginRequest,
   createAuthRegisterRequest,
   createAuthLogoutRequest,
+  createAuthRefreshTokenRequest,
 } = require('../requests/auth');
 const { createRequestValidator } = require('../helpers');
 const {
@@ -45,6 +46,7 @@ function createAuthRoute(router) {
   const authLoginRequest = createAuthLoginRequest();
   const authRegisterRequest = createAuthRegisterRequest();
   const authLogoutRequest = createAuthLogoutRequest();
+  const authRefreshTokenRequest = createAuthRefreshTokenRequest();
 
   router.post(
     '/register',
@@ -60,6 +62,11 @@ function createAuthRoute(router) {
     '/logout',
     createRequestValidator(authLogoutRequest.rules),
     authController.logout
+  );
+  router.post(
+    '/refresh-token',
+    createRequestValidator(authRefreshTokenRequest.rules),
+    authController.refreshToken
   );
 
   return {
