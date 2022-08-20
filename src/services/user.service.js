@@ -8,7 +8,11 @@ function createUserService({ userRepository, passwordService }) {
     });
   }
 
-  return { createUser };
+  async function findByEmail(email) {
+    return await userRepository.findByEmail(email);
+  }
+
+  return { createUser, findByEmail };
 }
 
 module.exports = createUserService;
