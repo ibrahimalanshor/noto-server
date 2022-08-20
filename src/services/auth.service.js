@@ -40,7 +40,20 @@ function createAuthService({
     }
   }
 
-  return { register, login, logout };
+  async function refreshToken(token) {
+    try {
+      const refreshTokenSaved = await refreshTokenService.findByToken(token);
+      const accessToken = await tokenService.generateAccessToken({
+        id: refreshTokenSaved.userId,
+      });
+
+      return accessToken;
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  return { register, login, logout, refreshToken };
 }
 
 module.exports = createAuthService;

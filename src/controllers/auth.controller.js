@@ -31,10 +31,21 @@ function createAuthController({ authService }) {
     }
   }
 
+  async function refreshToken(req, res, next) {
+    try {
+      const accessToken = await authService.refreshToken(req.body.refreshToken);
+
+      return new SuccessResponse('', { accessToken }).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   return {
     login,
     register,
     logout,
+    refreshToken,
   };
 }
 

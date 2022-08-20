@@ -1,3 +1,5 @@
+const { isNotFound } = require('../utils/database');
+
 function createRefreshTokenRepository({ refreshTokenModel }) {
   async function create(body) {
     return await refreshTokenModel.create(body);
@@ -11,7 +13,15 @@ function createRefreshTokenRepository({ refreshTokenModel }) {
     return await refreshTokenModel.destroy({ where: { token } });
   }
 
-  return { create, deleteByUserId, deleteByToken };
+  async function findByToken(token) {
+    const refreshToken = await refreshTokenModel.findOne({ where: { token } });
+
+    isNotFound(refreshToken);
+
+    return refreshToken;
+  }
+
+  return { create, deleteByUserId, deleteByToken, findByToken };
 }
 
 module.exports = createRefreshTokenRepository;
