@@ -13,7 +13,9 @@ function createAuthController({ authService }) {
 
   async function login(req, res, next) {
     try {
-      return res.json(req.body);
+      const token = await authService.login(req.body);
+
+      return new SuccessResponse('', { token }).send(res);
     } catch (err) {
       next(err);
     }

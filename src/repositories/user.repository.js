@@ -1,4 +1,4 @@
-const { isConflict } = require('../utils/database');
+const { isConflict, isNotFound } = require('../utils/database');
 
 function createUserRepository({ userModel }) {
   async function create(body) {
@@ -11,7 +11,15 @@ function createUserRepository({ userModel }) {
     }
   }
 
-  return { create };
+  async function findByEmail(email) {
+    const user = await userModel.findOne({ where: { email } });
+
+    isNotFound(user);
+
+    return user;
+  }
+
+  return { create, findByEmail };
 }
 
 module.exports = createUserRepository;

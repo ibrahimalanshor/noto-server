@@ -18,15 +18,12 @@ const {
   createTokenService,
 } = require('../services/common');
 const { UserModel } = require('../models/user');
-
-const model = {
-  create: (body) => body,
-};
+const { RefreshTokenModel } = require('../models/refresh-token');
 
 function createAuthRoute(router) {
   const userRepository = createUserRepository({ userModel: UserModel });
   const refreshTokenRepository = createRefreshTokenRepository({
-    refreshTokenModel: model,
+    refreshTokenModel: RefreshTokenModel,
   });
 
   const passwordService = createPasswordService();

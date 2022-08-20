@@ -1,3 +1,5 @@
+const { UnauthorizedException } = require('../exceptions');
+
 function createAuthService({ userService, tokenService, passwordService }) {
   async function register(credential) {
     const user = await userService.createUser(credential);
@@ -8,13 +10,17 @@ function createAuthService({ userService, tokenService, passwordService }) {
   }
 
   async function login(credential) {
-    const user = await userService.findByEmail(credential.email);
+    try {
+      const user = await userService.findByEmail(credential.email);
 
-    await passwordService.checkPassword(user.password, credential.password);
+      await passwordService.checkPassword(user.password, credential.password);
 
-    const token = await tokenService.generateAuthToken(user);
+      const token = await tokenService.generateAuthToken(user);
 
-    return token;
+      return token;
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
   }
 
   return { register, login };
