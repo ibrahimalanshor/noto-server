@@ -6,7 +6,11 @@ function createPasswordService() {
   }
 
   async function checkPassword(crypted, plain) {
-    return await bcrypt.compare(plain, crypted);
+    const match = await bcrypt.compare(plain, crypted);
+
+    if (!match) throw new Error();
+
+    return match;
   }
 
   return { checkPassword, hashPassword };
