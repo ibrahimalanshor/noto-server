@@ -7,11 +7,15 @@ function createAuthService({
   passwordService,
 }) {
   async function register(credential) {
-    const user = await userService.createUser(credential);
+    try {
+      const user = await userService.createUser(credential);
 
-    const token = await tokenService.generateAuthToken(user);
+      const token = await tokenService.generateAuthToken(user);
 
-    return token;
+      return token;
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
   }
 
   async function login(credential) {
@@ -30,9 +34,7 @@ function createAuthService({
 
   async function logout(refreshToken) {
     try {
-      const refreshTokenPayload = await tokenService.verify(refreshToken);
-
-      await refreshTokenService.deleteByToken(refreshTokenPayload.token);
+      await refreshTokenService.deleteByToken(refreshToken);
     } catch (err) {
       throw new UnauthorizedException();
     }
