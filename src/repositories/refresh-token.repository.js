@@ -3,7 +3,11 @@ function createRefreshTokenRepository({ refreshTokenModel }) {
     return await refreshTokenModel.create(body);
   }
 
-  return { create };
+  async function deleteByUserId(userId) {
+    return await refreshTokenModel.destroy({ where: { userId } });
+  }
+
+  return { create, deleteByUserId };
 }
 
 module.exports = createRefreshTokenRepository;
