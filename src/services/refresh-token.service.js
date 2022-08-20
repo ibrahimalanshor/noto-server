@@ -1,12 +1,12 @@
 const crypto = require('crypto');
 
 function createRefreshTokenService({ refreshTokenRepository }) {
-  async function createRefreshToken(userId) {
+  async function createRefreshToken({ userId, token }) {
     await refreshTokenRepository.deleteByUserId(userId);
 
     return await refreshTokenRepository.create({
       userId,
-      token: crypto.randomBytes(32).toString('hex'),
+      token,
       expiresIn: new Date(Date.now() + 1000 * 86400 * 30),
     });
   }
