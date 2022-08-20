@@ -21,9 +21,20 @@ function createAuthController({ authService }) {
     }
   }
 
+  async function logout(req, res, next) {
+    try {
+      await authService.logout(req.body.refreshToken);
+
+      return new SuccessResponse().send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   return {
     login,
     register,
+    logout,
   };
 }
 

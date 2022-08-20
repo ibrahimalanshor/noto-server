@@ -27,7 +27,16 @@ function createTokenService({ refreshTokenService }) {
     return { accessToken, refreshToken };
   }
 
-  return { generateAccessToken, generateRefreshToken, generateAuthToken };
+  async function verify(token) {
+    return await jwt.verify(token, config.app.key);
+  }
+
+  return {
+    generateAccessToken,
+    generateRefreshToken,
+    generateAuthToken,
+    verify,
+  };
 }
 
 module.exports = createTokenService;

@@ -1,6 +1,11 @@
 const { UnauthorizedException } = require('../exceptions');
 
-function createAuthService({ userService, tokenService, passwordService }) {
+function createAuthService({
+  userService,
+  refreshTokenService,
+  tokenService,
+  passwordService,
+}) {
   async function register(credential) {
     const user = await userService.createUser(credential);
 
@@ -23,7 +28,17 @@ function createAuthService({ userService, tokenService, passwordService }) {
     }
   }
 
-  return { register, login };
+  async function logout(refreshToken) {
+    try {
+      const refreshTokenPayload = await tokenService.verify(refreshToken);
+
+      await refreshTokenService.deleteByToken(refreshTokenPayload.token);
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  return { register, login, logout };
 }
 
 module.exports = createAuthService;

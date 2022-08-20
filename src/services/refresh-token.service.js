@@ -11,7 +11,11 @@ function createRefreshTokenService({ refreshTokenRepository }) {
     });
   }
 
-  return { createRefreshToken };
+  async function deleteByToken(token) {
+    await refreshTokenRepository.deleteByToken(token);
+  }
+
+  return { createRefreshToken, deleteByToken };
 }
 
 module.exports = createRefreshTokenService;
