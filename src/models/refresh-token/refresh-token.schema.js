@@ -5,7 +5,7 @@ module.exports = sequelize.define(
   'refresh-token',
   {
     token: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     expiresIn: {
