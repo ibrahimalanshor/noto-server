@@ -16,12 +16,11 @@ function createTokenService({ refreshTokenService }) {
 
   async function generateAuthToken(user) {
     const accessToken = await generateAccessToken({ id: user.id });
-    const refreshTokenSaved = await refreshTokenService.createRefreshToken(
-      user.id
-    );
-    const refreshToken = await generateRefreshToken({
-      id: user.id,
-      token: refreshTokenSaved.token,
+    const refreshToken = await generateRefreshToken({ id: user.id });
+
+    await refreshTokenService.createRefreshToken({
+      userId: user.id,
+      token: refreshToken,
     });
 
     return { accessToken, refreshToken };
