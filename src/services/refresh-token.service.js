@@ -15,7 +15,17 @@ function createRefreshTokenService({ refreshTokenRepository }) {
     await refreshTokenRepository.deleteByToken(token);
   }
 
-  return { createRefreshToken, deleteByToken };
+  async function findByToken(token) {
+    const refreshToken = await refreshTokenRepository.findByToken(token);
+
+    if (new Date() > new Date(refreshToken.expiresIn)) {
+      throw new Error();
+    }
+
+    return await refreshTokenRepository.findByToken(token);
+  }
+
+  return { createRefreshToken, deleteByToken, findByToken };
 }
 
 module.exports = createRefreshTokenService;
