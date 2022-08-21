@@ -19,7 +19,15 @@ function createUserRepository({ userModel }) {
     return user;
   }
 
-  return { create, findByEmail };
+  async function findById(id) {
+    const user = await userModel.findByPk(id);
+
+    isNotFound(user);
+
+    return user;
+  }
+
+  return { create, findByEmail, findById };
 }
 
 module.exports = createUserRepository;
