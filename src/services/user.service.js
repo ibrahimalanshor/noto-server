@@ -12,7 +12,11 @@ function createUserService({ userRepository, passwordService }) {
     return await userRepository.findByEmail(email);
   }
 
-  return { createUser, findByEmail };
+  async function findById(id) {
+    return await userRepository.findById(id);
+  }
+
+  return { createUser, findByEmail, findById };
 }
 
 module.exports = createUserService;
