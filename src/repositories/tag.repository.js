@@ -1,18 +1,17 @@
-const { Filter } = require('../utils/database');
-
 function createTagRepository({ tagModel }) {
   async function getAll(query) {
-    const filter = new Filter()
-      .where('userId', query.userId)
-      .search('name', query.name ?? '')
-      .order(query.order)
-      .paginate(query.page)
-      .get();
-
-    return await tagModel.findAndCountAll(filter);
+    return await tagModel.findAndCountAll(query);
   }
 
-  return { getAll };
+  async function create(body) {
+    return await tagModel.create(body);
+  }
+
+  async function count(query) {
+    return await tagModel.count(query);
+  }
+
+  return { getAll, create, count };
 }
 
 module.exports = createTagRepository;
