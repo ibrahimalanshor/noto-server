@@ -1,16 +1,13 @@
+const Response = require('./response.js');
+
 function SuccessReponse(message = '', data = {}) {
-  this.status = 200;
-  this.response = {
-    status: this.status,
-    message,
-    data,
-  };
-
-  this.send = (res) => {
-    return res.status(this.status).json(this.response);
-  };
-
-  return this;
+  Response.call(this, 200, message, data);
 }
+
+SuccessReponse.prototype = Object.create(Response.prototype, {
+  constructor: {
+    value: SuccessReponse,
+  },
+});
 
 module.exports = SuccessReponse;
