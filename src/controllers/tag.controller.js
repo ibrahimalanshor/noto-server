@@ -1,4 +1,4 @@
-const { SuccessResponse } = require('../responses');
+const { SuccessResponse, CreatedResponse } = require('../responses');
 const { extractQueryPage, extractQueryOrder } = require('../utils/query');
 
 function createTagController({ tagService }) {
@@ -11,13 +11,26 @@ function createTagController({ tagService }) {
         ...extractQueryPage(req.query),
       });
 
-      return new SuccessResponse('', { tags }).send(res);
+      return new SuccessResponse('', tags).send(res);
     } catch (err) {
       next(err);
     }
   }
 
-  return { get };
+  async function create(req, res, next) {
+    try {
+      const tag = await tagService.create({
+        ...req.body,
+        userId: req.user.id,
+      });
+
+      return new CreatedResponse('', tag).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  return { get, create };
 }
 
 module.exports = createTagController;
