@@ -36,7 +36,11 @@ function createTagService({ tagRepository }) {
     return await tagRepository.update(tag, body);
   }
 
-  return { getAll, create, exists, find, update };
+  async function remove(tag) {
+    return await tagRepository.remove(tag);
+  }
+
+  return { getAll, create, exists, find, update, remove };
 }
 
 module.exports = createTagService;
