@@ -33,7 +33,8 @@ function createTagRoute(router) {
       requireAuth,
       createRequestValidator(tagUpdateRequest.rules),
       tagController.update
-    );
+    )
+    .delete(requireAuth, tagController.remove);
 
   return {
     path: '/tags',

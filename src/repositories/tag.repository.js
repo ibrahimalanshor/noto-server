@@ -27,7 +27,13 @@ function createTagRepository({ tagModel }) {
     return tag;
   }
 
-  return { getAll, create, count, find, update };
+  async function remove(tag) {
+    await tag.destroy();
+
+    return tag;
+  }
+
+  return { getAll, create, count, find, update, remove };
 }
 
 module.exports = createTagRepository;
