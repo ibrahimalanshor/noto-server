@@ -13,6 +13,12 @@ function createNoteService({ noteRepository }) {
     return await noteRepository.getAll(filter);
   }
 
+  async function getOne(id) {
+    const filter = new Filter().with('tag').get();
+
+    return await noteRepository.find(id, filter);
+  }
+
   async function create(body) {
     return await noteRepository.create(body);
   }
@@ -29,7 +35,7 @@ function createNoteService({ noteRepository }) {
     return await noteRepository.remove(note);
   }
 
-  return { getAll, create, find, update, remove };
+  return { getAll, getOne, create, find, update, remove };
 }
 
 module.exports = createNoteService;
