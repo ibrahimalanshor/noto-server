@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const searching = require('./search.js');
 const ordering = require('./order.js');
 const paginating = require('./paginate.js');
@@ -11,6 +12,14 @@ function Filter(config = {}) {
 
 Filter.prototype.where = function (column, val) {
   this.query.where[column] = val;
+
+  return this;
+};
+
+Filter.prototype.whereNot = function (column, val) {
+  this.where(column, {
+    [Op.ne]: val,
+  });
 
   return this;
 };
