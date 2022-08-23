@@ -16,18 +16,27 @@ function createTagService({ tagRepository }) {
     return await tagRepository.create(body);
   }
 
-  async function exists(name, userId) {
-    const filter = new Filter()
-      .where('name', name)
-      .where('userId', userId)
-      .get();
+  async function exists(name, userId, options = {}) {
+    const filter = new Filter().where('name', name).where('userId', userId);
 
-    const count = await tagRepository.count(filter);
+    if (options.excludeSelf) {
+      filter.whereNot('id', options.id);
+    }
+
+    const count = await tagRepository.count(filter.get());
 
     return count >= 1;
   }
 
-  return { getAll, create, exists };
+  async function find(id) {
+    return await tagRepository.find(id);
+  }
+
+  async function update(tag, body) {
+    return await tagRepository.update(tag, body);
+  }
+
+  return { getAll, create, exists, find, update };
 }
 
 module.exports = createTagService;

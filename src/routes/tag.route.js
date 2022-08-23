@@ -3,7 +3,10 @@ const { createTagController } = require('../controllers');
 const { createRequestValidator } = require('../helpers');
 const { createTagRepository } = require('../repositories/');
 const { createTagService } = require('../services');
-const { createTagCreateRequest } = require('../requests/tag');
+const {
+  createTagCreateRequest,
+  createTagUpdateRequest,
+} = require('../requests/tag');
 const { TagModel } = require('../models/tag');
 
 function createTagRoute(router) {
@@ -12,6 +15,7 @@ function createTagRoute(router) {
   const tagController = createTagController({ tagService });
 
   const tagCreateRequest = createTagCreateRequest({ tagService });
+  const tagUpdateRequest = createTagUpdateRequest({ tagService });
 
   router
     .route('/')
@@ -20,6 +24,14 @@ function createTagRoute(router) {
       requireAuth,
       createRequestValidator(tagCreateRequest.rules),
       tagController.create
+    );
+
+  router
+    .route('/:id')
+    .patch(
+      requireAuth,
+      createRequestValidator(tagUpdateRequest.rules),
+      tagController.update
     );
 
   return {
