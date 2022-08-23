@@ -13,8 +13,8 @@ function createNoteRepository({ noteModel }) {
     return await noteModel.count(query);
   }
 
-  async function find(id) {
-    const note = await noteModel.findByPk(id);
+  async function find(id, options = {}) {
+    const note = await noteModel.findByPk(id, options);
 
     isNotFound(note);
 

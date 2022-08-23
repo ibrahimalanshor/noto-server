@@ -7,6 +7,8 @@ function createNoteController({ noteService, tagService }) {
       const notes = await noteService.getAll({
         userId: req.user.id,
         name: req.query.name,
+        isTrash: req.query.isTrash,
+        isFavorite: req.query.isFavorite,
         ...extractQueryOrder(req.query),
         ...extractQueryPage(req.query),
       });
@@ -58,7 +60,7 @@ function createNoteController({ noteService, tagService }) {
 
   async function find(req, res, next) {
     try {
-      const note = await noteService.find(req.params.id);
+      const note = await noteService.getOne(req.params.id);
 
       req.user.canAccessNote(note);
 

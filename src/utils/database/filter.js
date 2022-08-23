@@ -7,6 +7,7 @@ function Filter(config = {}) {
   this.query = {
     where: {},
     order: [],
+    include: [],
   };
 }
 
@@ -43,6 +44,12 @@ Filter.prototype.paginate = function (options) {
 
   this.query.offset = page.offset;
   this.query.limit = page.limit;
+
+  return this;
+};
+
+Filter.prototype.with = function (model) {
+  this.query.include.push(model);
 
   return this;
 };
