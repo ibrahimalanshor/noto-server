@@ -17,29 +17,22 @@ function createTagRoute(router) {
   const tagCreateRequest = createTagCreateRequest({ tagService });
   const tagUpdateRequest = createTagUpdateRequest({ tagService });
 
-  router
-    .route('/')
-    .get(requireAuth, tagController.get)
-    .post(
-      requireAuth,
-      createRequestValidator(tagCreateRequest.rules),
-      tagController.create
-    );
+  router.get('/tags', requireAuth, tagController.get);
+  router.post(
+    '/tags',
+    requireAuth,
+    createRequestValidator(tagCreateRequest.rules),
+    tagController.create
+  );
 
-  router
-    .route('/:id')
-    .get(requireAuth, tagController.find)
-    .patch(
-      requireAuth,
-      createRequestValidator(tagUpdateRequest.rules),
-      tagController.update
-    )
-    .delete(requireAuth, tagController.remove);
-
-  return {
-    path: '/tags',
-    router,
-  };
+  router.get('/tags/:id', requireAuth, tagController.find);
+  router.patch(
+    '/tags/:id',
+    requireAuth,
+    createRequestValidator(tagUpdateRequest.rules),
+    tagController.update
+  );
+  router.delete('/tags/:id', requireAuth, tagController.remove);
 }
 
 module.exports = createTagRoute;
