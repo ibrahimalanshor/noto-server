@@ -44,7 +44,19 @@ function createTagController({ tagService }) {
     }
   }
 
-  return { get, create, update };
+  async function find(req, res, next) {
+    try {
+      const tag = await tagService.find(req.params.id);
+
+      req.user.canAccessTag(tag);
+
+      return new SuccessResponse('', tag).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  return { get, create, update, find };
 }
 
 module.exports = createTagController;
