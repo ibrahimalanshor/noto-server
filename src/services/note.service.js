@@ -5,6 +5,7 @@ function createNoteService({ noteRepository }) {
     const filter = new Filter()
       .where('userId', query.userId)
       .search('name', query.name ?? '')
+      .with('tag')
       .order(query.order)
       .paginate(query.page)
       .get();
