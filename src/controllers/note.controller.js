@@ -58,7 +58,7 @@ function createNoteController({ noteService, tagService }) {
 
   async function find(req, res, next) {
     try {
-      const note = await noteService.find(req.params.id);
+      const note = await noteService.getOne(req.params.id);
 
       req.user.canAccessNote(note);
 
