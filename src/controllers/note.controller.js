@@ -74,6 +74,22 @@ function createNoteController({ noteService, tagService }) {
     }
   }
 
+  async function updateTrash(req, res, next) {
+    try {
+      const note = await noteService.find(req.params.id);
+
+      req.user.canAccessNote(note);
+
+      await noteService.update(note, {
+        isTrash: req.body.isTrash,
+      });
+
+      return new SuccessResponse('', note).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async function find(req, res, next) {
     try {
       const note = await noteService.getOne(req.params.id);
@@ -100,7 +116,7 @@ function createNoteController({ noteService, tagService }) {
     }
   }
 
-  return { get, create, update, updateFavorite, find, remove };
+  return { get, create, update, updateFavorite, updateTrash, find, remove };
 }
 
 module.exports = createNoteController;
