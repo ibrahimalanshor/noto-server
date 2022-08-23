@@ -28,6 +28,7 @@ function createTagRoute(router) {
 
   router
     .route('/:id')
+    .get(requireAuth, tagController.find)
     .patch(
       requireAuth,
       createRequestValidator(tagUpdateRequest.rules),
