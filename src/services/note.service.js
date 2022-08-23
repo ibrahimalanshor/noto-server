@@ -14,6 +14,10 @@ function createNoteService({ noteRepository }) {
       filter.where('isTrash', stringToBoolean(query.isTrash));
     }
 
+    if (!isUndefined(query.isFavorite)) {
+      filter.where('isFavorite', stringToBoolean(query.isFavorite));
+    }
+
     return await noteRepository.getAll(filter.get());
   }
 
