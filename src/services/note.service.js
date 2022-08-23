@@ -1,4 +1,5 @@
 const { Filter } = require('../utils/database');
+const { isUndefined, stringToBoolean } = require('../utils');
 
 function createNoteService({ noteRepository }) {
   async function getAll(query) {
@@ -7,10 +8,13 @@ function createNoteService({ noteRepository }) {
       .search('name', query.name ?? '')
       .with('tag')
       .order(query.order)
-      .paginate(query.page)
-      .get();
+      .paginate(query.page);
 
-    return await noteRepository.getAll(filter);
+    if (!isUndefined(query.isTrash)) {
+      filter.where('isTrash', stringToBoolean(query.isTrash));
+    }
+
+    return await noteRepository.getAll(filter.get());
   }
 
   async function getOne(id) {
