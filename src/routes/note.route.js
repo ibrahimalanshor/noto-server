@@ -9,6 +9,7 @@ const { createTagService, createNoteService } = require('../services');
 const {
   createNoteCreateRequest,
   createNoteUpdateRequest,
+  createNoteUpdateFavoriteRequest,
 } = require('../requests/note');
 const { TagModel } = require('../models/tag');
 const { NoteModel } = require('../models/note');
@@ -22,8 +23,9 @@ function createNoteRoute(router) {
 
   const noteController = createNoteController({ noteService, tagService });
 
-  const noteCreateRequest = createNoteCreateRequest({ noteService });
-  const noteUpdateRequest = createNoteUpdateRequest({ noteService });
+  const noteCreateRequest = createNoteCreateRequest();
+  const noteUpdateRequest = createNoteUpdateRequest();
+  const noteUpdateFavoriteRequest = createNoteUpdateFavoriteRequest();
 
   router.get('/notes', requireAuth, noteController.get);
   router.post(
@@ -41,6 +43,13 @@ function createNoteRoute(router) {
     noteController.update
   );
   router.delete('/notes/:id', requireAuth, noteController.remove);
+
+  router.patch(
+    '/notes/:id/is-favorite',
+    requireAuth,
+    createRequestValidator(noteUpdateFavoriteRequest.rules),
+    noteController.updateFavorite
+  );
 }
 
 module.exports = createNoteRoute;

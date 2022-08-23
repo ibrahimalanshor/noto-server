@@ -58,6 +58,22 @@ function createNoteController({ noteService, tagService }) {
     }
   }
 
+  async function updateFavorite(req, res, next) {
+    try {
+      const note = await noteService.find(req.params.id);
+
+      req.user.canAccessNote(note);
+
+      await noteService.update(note, {
+        isFavorite: req.body.isFavorite,
+      });
+
+      return new SuccessResponse('', note).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async function find(req, res, next) {
     try {
       const note = await noteService.getOne(req.params.id);
@@ -84,7 +100,7 @@ function createNoteController({ noteService, tagService }) {
     }
   }
 
-  return { get, create, update, find, remove };
+  return { get, create, update, updateFavorite, find, remove };
 }
 
 module.exports = createNoteController;
