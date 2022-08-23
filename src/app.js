@@ -21,9 +21,7 @@ function createApp(config = {}) {
     app.use(middleware);
   }
 
-  for (const { path, router } of routes) {
-    app.use(path, router);
-  }
+  app.use(routes);
 
   app.use(
     createHandleError({

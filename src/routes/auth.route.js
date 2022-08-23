@@ -49,30 +49,25 @@ function createAuthRoute(router) {
   const authRefreshTokenRequest = createAuthRefreshTokenRequest();
 
   router.post(
-    '/register',
+    '/auth/register',
     createRequestValidator(authRegisterRequest.rules),
     authController.register
   );
   router.post(
-    '/login',
+    '/auth/login',
     createRequestValidator(authLoginRequest.rules),
     authController.login
   );
   router.post(
-    '/logout',
+    '/auth/logout',
     createRequestValidator(authLogoutRequest.rules),
     authController.logout
   );
   router.post(
-    '/refresh-token',
+    '/auth/refresh-token',
     createRequestValidator(authRefreshTokenRequest.rules),
     authController.refreshToken
   );
-
-  return {
-    path: '/auth',
-    router,
-  };
 }
 
 module.exports = createAuthRoute;
