@@ -7,6 +7,7 @@ function createNoteController({ noteService, tagService }) {
       const notes = await noteService.getAll({
         userId: req.user.id,
         name: req.query.name,
+        isTrash: req.query.isTrash,
         ...extractQueryOrder(req.query),
         ...extractQueryPage(req.query),
       });
