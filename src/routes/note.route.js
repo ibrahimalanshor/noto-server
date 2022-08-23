@@ -10,6 +10,7 @@ const {
   createNoteCreateRequest,
   createNoteUpdateRequest,
   createNoteUpdateFavoriteRequest,
+  createNoteUpdateTrashRequest,
 } = require('../requests/note');
 const { TagModel } = require('../models/tag');
 const { NoteModel } = require('../models/note');
@@ -26,6 +27,7 @@ function createNoteRoute(router) {
   const noteCreateRequest = createNoteCreateRequest();
   const noteUpdateRequest = createNoteUpdateRequest();
   const noteUpdateFavoriteRequest = createNoteUpdateFavoriteRequest();
+  const noteUpdateTrashRequest = createNoteUpdateTrashRequest();
 
   router.get('/notes', requireAuth, noteController.get);
   router.post(
@@ -49,6 +51,12 @@ function createNoteRoute(router) {
     requireAuth,
     createRequestValidator(noteUpdateFavoriteRequest.rules),
     noteController.updateFavorite
+  );
+  router.patch(
+    '/notes/:id/is-trash',
+    requireAuth,
+    createRequestValidator(noteUpdateTrashRequest.rules),
+    noteController.updateTrash
   );
 }
 
