@@ -4,6 +4,7 @@ function createHandleError(config = {}) {
   return (err, req, res, next) => {
     if (err instanceof HttpException) {
       return res.status(err.status).json({
+        status: err.status,
         name: err.name,
         message: err.message,
         errors: err.errors,
