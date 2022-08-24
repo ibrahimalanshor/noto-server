@@ -6,4 +6,5 @@ module.exports = {
   order: require('./order.js'),
   paginate: require('./paginate.js'),
   Filter: require('./filter.js'),
+  count: require('./count.js'),
 };
