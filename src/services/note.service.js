@@ -18,6 +18,10 @@ function createNoteService({ noteRepository }) {
       filter.where('isFavorite', stringToBoolean(query.isFavorite));
     }
 
+    if (!isUndefined(query.tagId)) {
+      filter.where('tagId', query.tagId);
+    }
+
     return await noteRepository.getAll(filter.get());
   }
 
