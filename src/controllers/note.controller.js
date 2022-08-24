@@ -9,6 +9,7 @@ function createNoteController({ noteService, tagService }) {
         name: req.query.name,
         isTrash: req.query.isTrash,
         isFavorite: req.query.isFavorite,
+        tagId: req.query.tagId,
         ...extractQueryOrder(req.query),
         ...extractQueryPage(req.query),
       });
