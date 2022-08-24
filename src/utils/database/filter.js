@@ -22,6 +22,10 @@ Filter.prototype.select = function (col) {
   return this;
 };
 
+Filter.prototype.hide = function (col) {
+  this.query.attributes.exclude.push(col);
+};
+
 Filter.prototype.where = function (column, val) {
   this.query.where[column] = val;
 
