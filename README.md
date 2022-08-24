@@ -1,8 +1,8 @@
 # Noto Server
 
 - [x] Setup
-- [ ] Dev
-- [ ] Test
+- [x] Dev
+- [x] Test
 - [ ] Integrate
 - [ ] Test
 - [ ] Publish
