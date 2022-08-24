@@ -11,7 +11,17 @@ function createProfileController({ profileService }) {
     }
   }
 
-  return { getProfile };
+  async function updateProfile(req, res, next) {
+    try {
+      const user = await profileService.updateProfile(req.user, req.body);
+
+      return new SuccessResponse('', user).send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  return { getProfile, updateProfile };
 }
 
 module.exports = createProfileController;
