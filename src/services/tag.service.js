@@ -1,15 +1,26 @@
-const { Filter } = require('../utils/database');
+const { Filter, count } = require('../utils/database');
+const { NoteModel } = require('../models/note');
 
 function createTagService({ tagRepository }) {
   async function getAll(query) {
     const filter = new Filter()
+      .select(count('notes.tagId', 'notesCount'))
       .where('userId', query.userId)
       .search('name', query.name ?? '')
+      .with({
+        model: NoteModel,
+        attributes: [],
+      })
       .order(query.order)
       .paginate(query.page)
-      .get();
+      .group('tag.id');
 
-    return await tagRepository.getAll(filter);
+    const rows = await tagRepository.getAll(filter.get());
+    const rowsCount = await tagRepository.count(
+      filter.resetSelect().resetWith().resetGroup().get()
+    );
+
+    return { count: rowsCount, rows };
   }
 
   async function create(body) {
