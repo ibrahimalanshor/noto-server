@@ -9,7 +9,11 @@ function createProfileService({ userRepository }) {
     return profile;
   }
 
-  return { getProfile };
+  async function updateProfile(user, body) {
+    return await userRepository.update(user, body);
+  }
+
+  return { getProfile, updateProfile };
 }
 
 module.exports = createProfileService;
