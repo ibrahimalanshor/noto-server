@@ -8,8 +8,19 @@ function Filter(config = {}) {
     where: {},
     order: [],
     include: [],
+    attributes: {
+      include: [],
+      exclude: [],
+    },
+    group: [],
   };
 }
+
+Filter.prototype.select = function (col) {
+  this.query.attributes.include.push(col);
+
+  return this;
+};
 
 Filter.prototype.where = function (column, val) {
   this.query.where[column] = val;
@@ -54,8 +65,48 @@ Filter.prototype.with = function (model) {
   return this;
 };
 
+Filter.prototype.group = function (col) {
+  this.query.group.push(col);
+
+  return this;
+};
+
 Filter.prototype.get = function () {
-  return this.query;
+  return {
+    ...(Object.keys(this.query.where).length
+      ? { where: this.query.where }
+      : {}),
+    ...(this.query.order.length ? { order: this.query.order } : {}),
+    ...(this.query.include.length ? { include: this.query.include } : {}),
+    ...(this.query.group.length ? { group: this.query.group } : {}),
+    attributes: {
+      ...(this.query.attributes.include.length
+        ? { include: this.query.attributes.include }
+        : {}),
+      ...(this.query.attributes.exclude.length
+        ? { exclude: this.query.attributes.exclude }
+        : {}),
+    },
+  };
+};
+
+Filter.prototype.resetSelect = function () {
+  this.query.attributes.include = [];
+  this.query.attributes.exclude = [];
+
+  return this;
+};
+
+Filter.prototype.resetWith = function () {
+  this.query.include = [];
+
+  return this;
+};
+
+Filter.prototype.resetGroup = function () {
+  this.query.group = [];
+
+  return this;
 };
 
 module.exports = Filter;
