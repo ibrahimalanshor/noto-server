@@ -4,4 +4,5 @@ module.exports = {
   createUserService: require('./user.service.js'),
   createTagService: require('./tag.service.js'),
   createNoteService: require('./note.service.js'),
+  createProfileService: require('./profile.service.js'),
 };
