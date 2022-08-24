@@ -2,7 +2,7 @@ const { isNotFound } = require('../utils/database');
 
 function createTagRepository({ tagModel }) {
   async function getAll(query) {
-    return await tagModel.findAndCountAll(query);
+    return await tagModel.findAll(query);
   }
 
   async function create(body) {
@@ -13,8 +13,8 @@ function createTagRepository({ tagModel }) {
     return await tagModel.count(query);
   }
 
-  async function find(id) {
-    const tag = await tagModel.findByPk(id);
+  async function find(id, options = {}) {
+    const tag = await tagModel.findByPk(id, options);
 
     isNotFound(tag);
 
