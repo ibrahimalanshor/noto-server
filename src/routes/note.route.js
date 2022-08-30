@@ -38,6 +38,7 @@ function createNoteRoute(router) {
   );
 
   router.get('/notes/:id', requireAuth, noteController.find);
+  router.delete('/notes/is-trash', requireAuth, noteController.clearTrash);
   router.patch(
     '/notes/:id',
     requireAuth,

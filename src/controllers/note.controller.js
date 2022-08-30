@@ -118,7 +118,26 @@ function createNoteController({ noteService, tagService }) {
     }
   }
 
-  return { get, create, update, updateFavorite, updateTrash, find, remove };
+  async function clearTrash(req, res, next) {
+    try {
+      await noteService.clearTrash(req.user.id);
+
+      return new SuccessResponse('').send(res);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  return {
+    get,
+    create,
+    update,
+    updateFavorite,
+    updateTrash,
+    find,
+    remove,
+    clearTrash,
+  };
 }
 
 module.exports = createNoteController;

@@ -33,7 +33,16 @@ function createNoteRepository({ noteModel }) {
     return note;
   }
 
-  return { getAll, create, count, find, update, remove };
+  async function clearTrash(userId) {
+    await noteModel.destroy({
+      where: {
+        userId,
+        isTrash: true,
+      },
+    });
+  }
+
+  return { getAll, create, count, find, update, remove, clearTrash };
 }
 
 module.exports = createNoteRepository;
