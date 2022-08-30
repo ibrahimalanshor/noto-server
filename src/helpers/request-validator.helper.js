@@ -6,7 +6,7 @@ function createRequestValidator(rules) {
     try {
       await validationResult(req).throw();
 
-      req.body = matchedData(req);
+      req.body = matchedData(req, { includeOptionals: true });
 
       next();
     } catch (err) {
