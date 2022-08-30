@@ -7,29 +7,25 @@ function createAuthService({
   passwordService,
 }) {
   async function register(credential) {
-    try {
-      const user = await userService.createUser(credential);
+    const user = await userService.createUser(credential);
 
-      const token = await tokenService.generateAuthToken(user);
+    const token = await tokenService.generateAuthToken(user);
 
-      return token;
-    } catch (err) {
-      throw new UnauthorizedException();
-    }
+    return token;
   }
 
   async function login(credential) {
+    const user = await userService.findByEmail(credential.email);
+
     try {
-      const user = await userService.findByEmail(credential.email);
-
       await passwordService.checkPassword(user.password, credential.password);
-
-      const token = await tokenService.generateAuthToken(user);
-
-      return token;
     } catch (err) {
       throw new UnauthorizedException();
     }
+
+    const token = await tokenService.generateAuthToken(user);
+
+    return token;
   }
 
   async function logout(refreshToken) {
