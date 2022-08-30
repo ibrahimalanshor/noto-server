@@ -13,7 +13,9 @@ function createProfileController({ profileService }) {
 
   async function updateProfile(req, res, next) {
     try {
-      const user = await profileService.updateProfile(req.user, req.body);
+      await profileService.updateProfile(req.user, req.body);
+
+      const user = await profileService.getProfile(req.user);
 
       return new SuccessResponse('', user).send(res);
     } catch (err) {
