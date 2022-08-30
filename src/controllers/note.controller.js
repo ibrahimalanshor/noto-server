@@ -83,6 +83,7 @@ function createNoteController({ noteService, tagService }) {
 
       await noteService.update(note, {
         isTrash: req.body.isTrash,
+        isFavorite: false,
       });
 
       return new SuccessResponse('', note).send(res);
