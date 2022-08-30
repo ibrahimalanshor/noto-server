@@ -47,7 +47,11 @@ function createNoteService({ noteRepository }) {
     return await noteRepository.remove(note);
   }
 
-  return { getAll, getOne, create, find, update, remove };
+  async function clearTrash(userId) {
+    return await noteRepository.clearTrash(userId);
+  }
+
+  return { getAll, getOne, create, find, update, remove, clearTrash };
 }
 
 module.exports = createNoteService;
