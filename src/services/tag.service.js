@@ -3,6 +3,7 @@ const { NoteModel } = require('../models/note');
 
 function createTagService({ tagRepository }) {
   async function getAll(query) {
+    const filterNoteCount = new Filter().where('isTrash', false).get();
     const filter = new Filter()
       .select(count('notes.tagId', 'notesCount'))
       .where('userId', query.userId)
@@ -10,6 +11,8 @@ function createTagService({ tagRepository }) {
       .with({
         model: NoteModel,
         attributes: [],
+        required: false,
+        where: filterNoteCount.where,
       })
       .order(query.order)
       .paginate(query.page)
