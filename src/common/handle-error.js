@@ -5,8 +5,8 @@ function createHandleError(config = {}) {
     if (err instanceof HttpException) {
       return res.status(err.status).json({
         status: err.status,
-        name: err.name,
-        message: err.message,
+        name: req.polyglot.t(`http_status.${err.status.toLowerCase()}`),
+        message: req.polyglot.t(err.message),
         errors: err.errors,
       });
     } else {
@@ -15,7 +15,9 @@ function createHandleError(config = {}) {
       }
     }
 
-    return res.status(500).json({ status: 500, message: 'Server Error' });
+    return res
+      .status(500)
+      .json({ status: 500, message: req.polyglot.t('http_status.500') });
   };
 }
 
