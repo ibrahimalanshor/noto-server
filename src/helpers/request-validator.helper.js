@@ -1,5 +1,6 @@
 const { validationResult, matchedData } = require('express-validator');
 const { UnprocessableEntityException } = require('../exceptions');
+const translateRequestError = require('./translate-request-error.helper.js');
 
 function createRequestValidator(rules) {
   const validator = async (req, res, next) => {
@@ -10,7 +11,7 @@ function createRequestValidator(rules) {
 
       next();
     } catch (err) {
-      next(new UnprocessableEntityException('', err.mapped()));
+      next(new UnprocessableEntityException('', translateRequestError(err)));
     }
   };
 
