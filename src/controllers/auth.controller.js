@@ -5,7 +5,10 @@ function createAuthController({ authService }) {
     try {
       const token = await authService.register(req.body);
 
-      return new SuccessResponse('', { token }).send(req, res);
+      return new SuccessResponse('auth.register-success', { token }).send(
+        req,
+        res
+      );
     } catch (err) {
       next(err);
     }
