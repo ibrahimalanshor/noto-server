@@ -15,7 +15,10 @@ function createAuthController({ authService }) {
     try {
       const token = await authService.login(req.body);
 
-      return new SuccessResponse('', { token }).send(req, res);
+      return new SuccessResponse('auth.login-success', { token }).send(
+        req,
+        res
+      );
     } catch (err) {
       next(err);
     }

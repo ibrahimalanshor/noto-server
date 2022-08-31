@@ -15,17 +15,17 @@ function createAuthService({
   }
 
   async function login(credential) {
-    const user = await userService.findByEmail(credential.email);
-
     try {
+      const user = await userService.findByEmail(credential.email);
+
       await passwordService.checkPassword(user.password, credential.password);
+
+      const token = await tokenService.generateAuthToken(user);
+
+      return token;
     } catch (err) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('auth.incorrect-credential');
     }
-
-    const token = await tokenService.generateAuthToken(user);
-
-    return token;
   }
 
   async function logout(refreshToken) {
