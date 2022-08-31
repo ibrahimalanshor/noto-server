@@ -5,12 +5,16 @@ function createAuthRefreshTokenRequest() {
     body('refreshToken')
       .exists()
       .bail()
+      .withMessage('validation.exists')
       .notEmpty()
       .bail()
+      .withMessage('validation.not-empty')
       .isString()
       .bail()
+      .withMessage('validation.string')
       .isJWT()
-      .bail(),
+      .bail()
+      .withMessage('validation.jwt'),
   ];
 
   return {

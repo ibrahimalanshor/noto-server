@@ -31,7 +31,7 @@ function createAuthController({ authService }) {
     try {
       await authService.logout(req.body.refreshToken);
 
-      return new SuccessResponse().send(req, res);
+      return new SuccessResponse('auth.logout-success').send(req, res);
     } catch (err) {
       next(err);
     }
@@ -41,7 +41,9 @@ function createAuthController({ authService }) {
     try {
       const accessToken = await authService.refreshToken(req.body.refreshToken);
 
-      return new SuccessResponse('', { accessToken }).send(req, res);
+      return new SuccessResponse('auth.refresh-token-success', {
+        accessToken,
+      }).send(req, res);
     } catch (err) {
       next(err);
     }
