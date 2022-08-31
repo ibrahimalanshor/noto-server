@@ -14,7 +14,7 @@ function createNoteController({ noteService, tagService }) {
         ...extractQueryPage(req.query),
       });
 
-      return new SuccessResponse('', notes).send(res);
+      return new SuccessResponse('', notes).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -33,7 +33,7 @@ function createNoteController({ noteService, tagService }) {
         userId: req.user.id,
       });
 
-      return new CreatedResponse('', note).send(res);
+      return new CreatedResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -53,7 +53,7 @@ function createNoteController({ noteService, tagService }) {
 
       await noteService.update(note, req.body);
 
-      return new SuccessResponse('', note).send(res);
+      return new SuccessResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -69,7 +69,7 @@ function createNoteController({ noteService, tagService }) {
         isFavorite: req.body.isFavorite,
       });
 
-      return new SuccessResponse('', note).send(res);
+      return new SuccessResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -86,7 +86,7 @@ function createNoteController({ noteService, tagService }) {
         isFavorite: false,
       });
 
-      return new SuccessResponse('', note).send(res);
+      return new SuccessResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -98,7 +98,7 @@ function createNoteController({ noteService, tagService }) {
 
       req.user.canAccessNote(note);
 
-      return new SuccessResponse('', note).send(res);
+      return new SuccessResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -112,7 +112,7 @@ function createNoteController({ noteService, tagService }) {
 
       await noteService.remove(note);
 
-      return new SuccessResponse('', note).send(res);
+      return new SuccessResponse('', note).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -122,7 +122,7 @@ function createNoteController({ noteService, tagService }) {
     try {
       await noteService.clearTrash(req.user.id);
 
-      return new SuccessResponse('').send(res);
+      return new SuccessResponse('').send(req, res);
     } catch (err) {
       next(err);
     }

@@ -5,7 +5,7 @@ function createAuthController({ authService }) {
     try {
       const token = await authService.register(req.body);
 
-      return new SuccessResponse('', { token }).send(res);
+      return new SuccessResponse('', { token }).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -15,7 +15,7 @@ function createAuthController({ authService }) {
     try {
       const token = await authService.login(req.body);
 
-      return new SuccessResponse('', { token }).send(res);
+      return new SuccessResponse('', { token }).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -25,7 +25,7 @@ function createAuthController({ authService }) {
     try {
       await authService.logout(req.body.refreshToken);
 
-      return new SuccessResponse().send(res);
+      return new SuccessResponse().send(req, res);
     } catch (err) {
       next(err);
     }
@@ -35,7 +35,7 @@ function createAuthController({ authService }) {
     try {
       const accessToken = await authService.refreshToken(req.body.refreshToken);
 
-      return new SuccessResponse('', { accessToken }).send(res);
+      return new SuccessResponse('', { accessToken }).send(req, res);
     } catch (err) {
       next(err);
     }
