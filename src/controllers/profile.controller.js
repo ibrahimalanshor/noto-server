@@ -17,7 +17,7 @@ function createProfileController({ profileService }) {
 
       const user = await profileService.getProfile(req.user);
 
-      return new SuccessResponse('', user).send(req, res);
+      return new SuccessResponse('profile.updated', user).send(req, res);
     } catch (err) {
       next(err);
     }

@@ -24,7 +24,7 @@ function createTagController({ tagService }) {
         userId: req.user.id,
       });
 
-      return new CreatedResponse('', tag).send(req, res);
+      return new CreatedResponse('tag.created', tag).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -38,7 +38,7 @@ function createTagController({ tagService }) {
 
       await tagService.update(tag, req.body);
 
-      return new SuccessResponse('', tag).send(req, res);
+      return new SuccessResponse('tag.updated', tag).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -64,7 +64,7 @@ function createTagController({ tagService }) {
 
       await tagService.remove(tag);
 
-      return new SuccessResponse('', tag).send(req, res);
+      return new SuccessResponse('tag.deleted', tag).send(req, res);
     } catch (err) {
       next(err);
     }

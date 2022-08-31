@@ -16,7 +16,7 @@ function createNoteRepository({ noteModel }) {
   async function find(id, options = {}) {
     const note = await noteModel.findByPk(id, options);
 
-    isNotFound(note);
+    isNotFound(note, 'note.not-found');
 
     return note;
   }

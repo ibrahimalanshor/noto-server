@@ -1,7 +1,15 @@
 const { body } = require('express-validator');
 
 function createTagUpdateFavoriteRequest() {
-  const rules = [body('isFavorite').exists().bail().isBoolean().bail()];
+  const rules = [
+    body('isFavorite')
+      .exists()
+      .bail()
+      .withMessage('validation.exists')
+      .isBoolean()
+      .bail()
+      .withMessage('validation.boolean'),
+  ];
 
   return {
     rules,

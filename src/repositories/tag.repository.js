@@ -16,7 +16,7 @@ function createTagRepository({ tagModel }) {
   async function find(id, options = {}) {
     const tag = await tagModel.findByPk(id, options);
 
-    isNotFound(tag);
+    isNotFound(tag, 'tag.not-found');
 
     return tag;
   }
