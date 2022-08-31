@@ -40,7 +40,7 @@ function createAuthRegisterRequest() {
       .bail()
       .withMessage('validation.exists')
       .custom(confirmed('password'))
-      .withMessage('validation.confirmed'),
+      .withMessage('validation.invalid'),
   ];
 
   return {

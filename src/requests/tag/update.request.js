@@ -5,10 +5,13 @@ function createTagUpdateRequest({ tagService }) {
     body('name')
       .exists()
       .bail()
+      .withMessage('validation.exists')
       .notEmpty()
       .bail()
+      .withMessage('validation.not-empty')
       .isString()
       .bail()
+      .withMessage('validation.string')
       .custom(async (val, { req }) => {
         const exists = await tagService.exists(val, req.user.id, {
           excludeSelf: true,
@@ -19,15 +22,19 @@ function createTagUpdateRequest({ tagService }) {
 
         return true;
       })
-      .bail(),
+      .bail()
+      .withMessage('validation.string'),
     body('color')
       .optional({ nullable: true, checkFalsy: true })
       .bail()
       .notEmpty()
+      .withMessage('validation.not-empty')
       .bail()
       .isString()
+      .withMessage('validation.string')
       .bail()
-      .isIn(['primary', 'dark', 'warning', 'danger', 'success', 'info']),
+      .isIn(['primary', 'dark', 'warning', 'danger', 'success', 'info'])
+      .withMessage('validation.invalid'),
   ];
 
   return {

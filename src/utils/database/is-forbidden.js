@@ -1,5 +1,5 @@
 const { ForbiddenException } = require('../../exceptions');
 
-module.exports = (cond) => {
-  if (cond) throw new ForbiddenException();
+module.exports = (cond, msg) => {
+  if (cond) throw new ForbiddenException(msg);
 };

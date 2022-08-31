@@ -29,7 +29,7 @@ function createProfileUpdateRequest() {
       .exists()
       .bail()
       .custom(confirmed('password'))
-      .withMessage('validation.confirmed'),
+      .withMessage('validation.invalid'),
   ];
 
   return {
