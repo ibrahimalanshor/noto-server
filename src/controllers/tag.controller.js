@@ -11,7 +11,7 @@ function createTagController({ tagService }) {
         ...extractQueryPage(req.query),
       });
 
-      return new SuccessResponse('', tags).send(res);
+      return new SuccessResponse('', tags).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -24,7 +24,7 @@ function createTagController({ tagService }) {
         userId: req.user.id,
       });
 
-      return new CreatedResponse('', tag).send(res);
+      return new CreatedResponse('', tag).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -38,7 +38,7 @@ function createTagController({ tagService }) {
 
       await tagService.update(tag, req.body);
 
-      return new SuccessResponse('', tag).send(res);
+      return new SuccessResponse('', tag).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -50,7 +50,7 @@ function createTagController({ tagService }) {
 
       req.user.canAccessTag(tag);
 
-      return new SuccessResponse('', tag).send(res);
+      return new SuccessResponse('', tag).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -64,7 +64,7 @@ function createTagController({ tagService }) {
 
       await tagService.remove(tag);
 
-      return new SuccessResponse('', tag).send(res);
+      return new SuccessResponse('', tag).send(req, res);
     } catch (err) {
       next(err);
     }

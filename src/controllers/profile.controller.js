@@ -5,7 +5,7 @@ function createProfileController({ profileService }) {
     try {
       const user = await profileService.getProfile(req.user);
 
-      return new SuccessResponse('', user).send(res);
+      return new SuccessResponse('', user).send(req, res);
     } catch (err) {
       next(err);
     }
@@ -17,7 +17,7 @@ function createProfileController({ profileService }) {
 
       const user = await profileService.getProfile(req.user);
 
-      return new SuccessResponse('', user).send(res);
+      return new SuccessResponse('', user).send(req, res);
     } catch (err) {
       next(err);
     }
