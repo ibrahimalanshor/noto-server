@@ -13,7 +13,7 @@ function createAccessTokenValidator({ tokenService, userService }) {
 
       next();
     } catch (err) {
-      next(new UnauthorizedException(err));
+      next(new UnauthorizedException());
     }
   };
 }
