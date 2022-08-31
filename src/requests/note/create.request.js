@@ -2,23 +2,46 @@ const { body } = require('express-validator');
 
 function createNoteCreateRequest() {
   const rules = [
-    body('name').exists().bail().notEmpty().bail().isString().bail(),
-    body('content').exists().bail().notEmpty().bail().isString().bail(),
+    body('name')
+      .exists()
+      .bail()
+      .withMessage('validation.exists')
+      .notEmpty()
+      .bail()
+      .withMessage('validation.not-empty')
+      .isString()
+      .bail()
+      .withMessage('validation.string'),
+    body('content')
+      .exists()
+      .bail()
+      .withMessage('validation.exists')
+      .notEmpty()
+      .bail()
+      .withMessage('validation.not-empty')
+      .isString()
+      .bail()
+      .withMessage('validation.string'),
     body('color')
       .optional({ nullable: true, checkFalsy: true })
       .bail()
       .notEmpty()
       .bail()
+      .withMessage('validation.not-empty')
       .isString()
       .bail()
-      .isIn(['primary', 'dark', 'warning', 'danger', 'success', 'info']),
+      .withMessage('validation.string')
+      .isIn(['primary', 'dark', 'warning', 'danger', 'success', 'info'])
+      .withMessage('validation.invalid'),
     body('tagId')
       .optional({ nullable: true, checkFalsy: true })
       .bail()
       .notEmpty()
       .bail()
+      .withMessage('validation.not-empty')
       .isInt()
-      .bail(),
+      .bail()
+      .withMessage('validation.integer'),
   ];
 
   return {
