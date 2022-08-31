@@ -11,7 +11,9 @@ function createRequestValidator(rules) {
 
       next();
     } catch (err) {
-      next(new UnprocessableEntityException('', translateRequestError(err)));
+      next(
+        new UnprocessableEntityException('', translateRequestError(req, err))
+      );
     }
   };
 

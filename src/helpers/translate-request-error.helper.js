@@ -1,4 +1,4 @@
-module.exports = (err) =>
+module.exports = (req, err) =>
   Object.fromEntries(
     Object.entries(err.mapped()).map(([name, error]) => [
       name,
