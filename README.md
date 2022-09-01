@@ -3,6 +3,6 @@
 - [x] Setup
 - [x] Dev
 - [x] Test
-- [ ] Integrate
-- [ ] Test
-- [ ] Publish
+- [x] Integrate
+- [x] Test
+- [x] Publish
